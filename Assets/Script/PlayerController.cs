@@ -10,20 +10,21 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private Camera _camera;
     [SerializeField] private Rigidbody2D rb;
 
-    public int health = 3;
+    public int maxHealth = 3;
     [SerializeField] private Image[] heart;
-    [SerializeField] private Sprite fullHeart;
-    [SerializeField] private Sprite damagedHeart;
+    [SerializeField] private Sprite[] heartSprites;
     public int playerDamage = 1;
+
+    private int health;
     
     private Vector2 _movementNewInput;
     private Vector2 _movement;
     private Vector2 _mousePosition;
     private float _angularOffset = 90f;
     
-    private void Start()
+    private void Awake()
     {
-        UpdateHealth();
+        health = maxHealth;
     }
 
     void Move()
@@ -45,25 +46,6 @@ public class PlayerController : Singleton<PlayerController>
         _movementNewInput = moveValue.Get<Vector2>();
     }
 
-    public void UpdateHealth()
-    {
-        for (int i = 0; i < heart.Length; i++)
-        {
-            if (i < health)
-            {
-                heart[i].sprite = fullHeart;
-            }
-            else
-            {
-                heart[i].sprite = damagedHeart;
-                if (health <= 0)
-                {
-                    SceneManager.LoadScene("PlayerDead");
-                }
-            }
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("Enemy"))
@@ -77,7 +59,59 @@ public class PlayerController : Singleton<PlayerController>
             //StartCoroutine(Invulnerability());
             UpdateHealth();
         }
+    }
+    
+    public void UpdateHealth()
+    {
+        for (int i = 0; i < heart.Length; i++)
+        {
+            if (i < health)
+            {
+                if (health - (i+1) >= 6) heart[i].sprite = heartSprites[3];
+                else if(health - (i+1) >= 3) heart[i].sprite = heartSprites[2];
+                else heart[i].sprite = heartSprites[1];
+            }
+            else
+            {
+                heart[i].sprite = heartSprites[0];
+                if (health <= 0)
+                {
+                    SceneManager.LoadScene("PlayerDead");
+                }
+            }
+        }
+    }
+    
+    public void HealthIncrement(int healthIncrement)
+    {
+        if(health >= maxHealth) return;        
         
+         health += healthIncrement;
+         
+         UpdateHealth();
+    }
+    
+    public void MaxHealthIncrement(int maxHealthIncrement)
+    {
+        maxHealth += maxHealthIncrement;
+        
+        health = maxHealth;
+        
+        UpdateHealth();
+    }
+
+    public void MapHeart(Image[] h)
+    {
+        heart = new Image[h.Length];
+        heart = h;
+        
+        UpdateHealth();
+    }
+
+    [ContextMenu("Add Health")]
+    private void PlusOneHealth()
+    {
+        HealthIncrement(2);
     }
 
     /*IEnumerator Invulnerability()

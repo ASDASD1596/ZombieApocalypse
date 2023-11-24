@@ -1,9 +1,10 @@
 using UnityEngine;
 
-public class UpgradeStats : MonoBehaviour
+public class UpgradeStats : Singleton<UpgradeStats>
 {
     public int damageCost = 5;
     public int firerateCost = 5;
+    public int healthCost = 5;
     
     private Money _money;
     private PlayerController _playerController;
@@ -39,5 +40,22 @@ public class UpgradeStats : MonoBehaviour
         _money.totalCoins -= firerateCost;
         
         PlayerShot.Instance.delayShot *= _firerateMultiplier;
+    }
+    
+    public void IncreaseHealthPoint()
+    {
+        if (Money.Instance.totalCoins < healthCost)
+        {
+            Debug.Log("Not enough money");
+            return;
+        }
+        else if (PlayerController.Instance.maxHealth >= 9)
+        {
+            Debug.Log("Heart Limit");
+            return;
+        }
+
+        Money.Instance.totalCoins -= healthCost;
+        PlayerController.Instance.MaxHealthIncrement(1);
     }
 }

@@ -9,8 +9,8 @@ public class HealthItem : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            ph.health += healthIncrement;
-            ph.UpdateHealth();
+            ph.HealthIncrement(healthIncrement);
+
             Destroy(this.gameObject);
             SoundManager.Instance.Play(SoundManager.SoundName.PickUpitem);
         }
