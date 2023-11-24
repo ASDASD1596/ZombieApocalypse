@@ -76,7 +76,7 @@ public class ZombieController : MonoBehaviour
             {
                 Destroy(gameObject);
                 Instantiate(coinDrop, transform.position,quaternion.identity);
-                SoundManager.instance.Play(SoundManager.SoundName.Zombie_Die);
+                SoundManager.Instance.Play(SoundManager.SoundName.Zombie_Die);
             }
             
         }

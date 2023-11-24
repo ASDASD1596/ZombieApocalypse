@@ -34,7 +34,7 @@ public class PlayerShot : Singleton<PlayerShot>
             GameObject bullet = Instantiate(playerShot, gun.position, gun.rotation);
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
             rb.AddForce(gun.up * shotSpeed,ForceMode2D.Impulse);
-            SoundManager.instance.Play(SoundManager.SoundName.Gunshot);
+            SoundManager.Instance.Play(SoundManager.SoundName.Gunshot);
             animator.Play("PlayerShoot");
         }
         

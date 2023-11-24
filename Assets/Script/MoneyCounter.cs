@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class MoneyCounter : MonoBehaviour
-{ public static MoneyCounter instance;
+public class MoneyCounter : Singleton<MoneyCounter>
+{
     public TMP_Text moneyDisplay;
     public int totalCoins = 0;
-
-    private void Awake()
-    {
-        instance = this;
-    }
-
+    
     void Start()
     {
         moneyDisplay.text = totalCoins.ToString();

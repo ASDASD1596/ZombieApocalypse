@@ -27,6 +27,11 @@ public class UpgradeStats : MonoBehaviour
 
     public void IncreaseFirerate()
     {
-        PlayerShot.Instance.delayShot -= ;
+        PlayerShot.Instance.delayShot *= 1.25f;
+    }
+
+    public void UpdateDamage()
+    {
+        
     }
 }

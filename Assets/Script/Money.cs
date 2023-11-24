@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Money : MonoBehaviour
+public class Money : Singleton<Money>
 {
     //public TextMeshProUGUI moneyDisplay;
     //private PlayerController playerController;
@@ -16,7 +16,7 @@ public class Money : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
-            MoneyCounter.instance.GetCoin(value);
+            MoneyCounter.Instance.GetCoin(value);
             Destroy(this.gameObject);
         }
     }

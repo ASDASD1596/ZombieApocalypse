@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : Singleton<SoundManager>
 {
-    private static SoundManager _instance;
-    public static SoundManager instance => _instance;
-    public static bool hasInstance => _instance != null;
+    public static bool hasInstance => Instance != null;
     [SerializeField] private Sound[] sounds;
     public enum SoundName
     { 
@@ -25,21 +23,6 @@ public class SoundManager : MonoBehaviour
        
     }
 
-    private void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else
-        {
-            Destroy(this);
-            return;
-        }
-
-        
-    }
-    
     public void Play(SoundName name)
     {
         Sound sound = GetSound(name);
