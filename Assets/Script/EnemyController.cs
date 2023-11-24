@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class EnemyController : MonoBehaviour
@@ -8,16 +9,27 @@ public class EnemyController : MonoBehaviour
     [SerializeField] protected Animator animator;
     [SerializeField] protected int _health = 10;
     public int _damage = 1;
+    [SerializeField] protected float _hitDelay = 0.5f;
+    [SerializeField] protected int _scoreValue = 100;
 
     protected Vector2 _movement;
     protected Rigidbody2D _rb;
     protected Transform _player;
     protected float _angularOffset = 270f;
+
+    protected bool hitable = true;
+    
+    protected ScoreManager _scoreManager;
     
     protected virtual void Awake()
     {
         _rb = this.GetComponent<Rigidbody2D>();
         _player = PlayerController.Instance.transform;
+    }
+    
+    protected virtual void Start()
+    {
+        _scoreManager = ScoreManager.Instance;
     }
 
     protected virtual void Update()
@@ -50,8 +62,9 @@ public class EnemyController : MonoBehaviour
                 Destroy(gameObject);
                 Instantiate(coinDrop, transform.position, Quaternion.identity);
                 SoundManager.Instance.Play(SoundManager.SoundName.Zombie_Die);
+                
+                if(_scoreManager != null) _scoreManager.AddScore(_scoreValue);
             }
-            
         }
     }
 

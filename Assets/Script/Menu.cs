@@ -7,7 +7,7 @@ public class Menu : MonoBehaviour
     {
         SceneManager.LoadScene("BeforeLevel1");
     }
-    
+
     public void PlayGame2()
     {
         SceneManager.LoadScene("BeforeLevel2");
@@ -17,7 +17,7 @@ public class Menu : MonoBehaviour
     {
         SceneManager.LoadScene("BeforeLevel3");
     }
-    
+
     public void Quit()
     {
         Application.Quit();
@@ -26,5 +26,10 @@ public class Menu : MonoBehaviour
     public void MainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void LoadScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }

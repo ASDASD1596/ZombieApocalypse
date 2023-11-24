@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: b621b552f9dd4d24a8a4ad3a847027b1
   - enabled: 1
+    path: Assets/Scenes/Endless/BeforeEndless.unity
+    guid: a3244a5c3c625124791ae150bb6a02d7
+  - enabled: 1
+    path: Assets/Scenes/Endless/LevelEndless.unity
+    guid: 980a9b86c56c7e14eaf75fc5b13c04cf
+  - enabled: 1
     path: Assets/Scenes/BeforeLevel1.unity
     guid: 59defab4670f7cb47b96f59d43854009
   - enabled: 1

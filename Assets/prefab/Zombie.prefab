@@ -176,7 +176,7 @@ MonoBehaviour:
   coinDrop: {fileID: 3416942899725825212, guid: 2b5a81c8c8f1cb54fa06cdf1e6a81e06, type: 3}
   walkProfile: {fileID: 11400000, guid: fb79aaaf65a41f1469fa7f97b207aea7, type: 2}
   animator: {fileID: -896597311531514844}
-  _health: 10
+  _health: 5
   _damage: 1
 --- !u!95 &-896597311531514844
 Animator:

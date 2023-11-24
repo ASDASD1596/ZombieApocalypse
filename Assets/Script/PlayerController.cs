@@ -1,7 +1,9 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class PlayerController : Singleton<PlayerController>
 {
@@ -10,21 +12,25 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private Camera _camera;
     [SerializeField] private Rigidbody2D rb;
 
-    public int maxHealth = 3;
+    public int maxHealth = 9;
+    public int currentMaxHealth = 3;
+    [SerializeField] float hitDelay = 0.5f;
     [SerializeField] private Image[] heart;
     [SerializeField] private Sprite[] heartSprites;
     public int playerDamage = 1;
 
-    private int health;
+    public int health;
     
     private Vector2 _movementNewInput;
     private Vector2 _movement;
     private Vector2 _mousePosition;
     private float _angularOffset = 90f;
+
+    private bool _iFrame = false;
     
     private void Awake()
     {
-        health = maxHealth;
+        health = currentMaxHealth;
     }
 
     void Move()
@@ -35,6 +41,8 @@ public class PlayerController : Singleton<PlayerController>
     void FixedUpdate()
     {
         Move();
+        
+        _mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
 
         Vector2 lookDirection = _mousePosition - rb.position;
         float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - _angularOffset;
@@ -50,10 +58,13 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (col.CompareTag("Enemy"))
         {
+            if(_iFrame) return;
+            
             col.TryGetComponent(out EnemyController enemy);
             
             if (health > 0)
             {
+                StartCoroutine(DelayHit());
                 health -= enemy._damage;
             }             
             //StartCoroutine(Invulnerability());
@@ -84,18 +95,19 @@ public class PlayerController : Singleton<PlayerController>
     
     public void HealthIncrement(int healthIncrement)
     {
-        if(health >= maxHealth) return;        
+        if(health >= currentMaxHealth) return;        
         
          health += healthIncrement;
+         if(health > currentMaxHealth) health = currentMaxHealth;
          
          UpdateHealth();
     }
     
     public void MaxHealthIncrement(int maxHealthIncrement)
     {
-        maxHealth += maxHealthIncrement;
+        currentMaxHealth += maxHealthIncrement;
         
-        health = maxHealth;
+        health = currentMaxHealth;
         
         UpdateHealth();
     }
@@ -106,6 +118,13 @@ public class PlayerController : Singleton<PlayerController>
         heart = h;
         
         UpdateHealth();
+    }
+    
+    IEnumerator DelayHit()
+    {
+        _iFrame = true;
+        yield return new WaitForSeconds(hitDelay);
+        _iFrame = false;
     }
 
     [ContextMenu("Add Health")]

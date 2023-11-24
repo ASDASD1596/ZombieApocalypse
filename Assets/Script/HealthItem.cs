@@ -9,6 +9,8 @@ public class HealthItem : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
+            if(PlayerController.Instance.health >= PlayerController.Instance.currentMaxHealth) return;
+            
             ph.HealthIncrement(healthIncrement);
 
             Destroy(this.gameObject);

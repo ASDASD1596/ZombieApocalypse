@@ -5,57 +5,53 @@ public class UpgradeStats : Singleton<UpgradeStats>
     public int damageCost = 5;
     public int firerateCost = 5;
     public int healthCost = 5;
-    
-    private Money _money;
-    private PlayerController _playerController;
-    
-    private float _firerateMultiplier = 1.25f;
 
-    private void Start()
-    {
-        _playerController = PlayerController.Instance;
-        _money = Money.Instance;
-    }
+    private float _firerateMultiplier = 1.25f;
 
     public void IncreaseDamge()
     {
-        if (_money.totalCoins < damageCost)
+        if (MoneyCounter.Instance.totalCoins < damageCost)
         {
             Debug.Log("Not enough money");
             return;
         }
-
-        _money.totalCoins -= damageCost;
+        
+        MoneyCounter.Instance.SpendCoin(healthCost);
         PlayerController.Instance.playerDamage++;
+        
+        InterfaceManager.Instance.CheckPocket();
     }
 
     public void IncreaseFirerate()
     {
-        if (_money.totalCoins < firerateCost)
+        if (MoneyCounter.Instance.totalCoins < firerateCost)
         {
             Debug.Log("Not enough money");
             return;
         }
-
-        _money.totalCoins -= firerateCost;
         
+        MoneyCounter.Instance.SpendCoin(healthCost);
         PlayerShot.Instance.delayShot *= _firerateMultiplier;
+        
+        InterfaceManager.Instance.CheckPocket();
     }
     
     public void IncreaseHealthPoint()
     {
-        if (Money.Instance.totalCoins < healthCost)
+        if (MoneyCounter.Instance.totalCoins < healthCost)
         {
             Debug.Log("Not enough money");
             return;
         }
-        else if (PlayerController.Instance.maxHealth >= 9)
+        else if (PlayerController.Instance.currentMaxHealth >= 9)
         {
             Debug.Log("Heart Limit");
             return;
         }
-
-        Money.Instance.totalCoins -= healthCost;
+        
+        MoneyCounter.Instance.SpendCoin(healthCost);
         PlayerController.Instance.MaxHealthIncrement(1);
+        
+        InterfaceManager.Instance.CheckPocket();
     }
 }
