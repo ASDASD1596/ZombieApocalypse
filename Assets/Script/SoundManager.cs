@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundManager : Singleton<SoundManager>
 {
     public static bool hasInstance => Instance != null;
     [SerializeField] private Sound[] sounds;
+    
     public enum SoundName
     { 
        BG1,
@@ -19,8 +18,6 @@ public class SoundManager : Singleton<SoundManager>
        Zombie_bite,
        Zombie_Die,
        Insect_Die
-       
-       
     }
 
     public void Play(SoundName name)

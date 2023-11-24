@@ -1,37 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class UpgradeStats : MonoBehaviour
 {
+    public int damageCost = 5;
+    public int firerateCost = 5;
+    
+    private Money _money;
+    private PlayerController _playerController;
+    
+    private float _firerateMultiplier = 1.25f;
 
-    public PlayerController playerController;
-    void Start()
+    private void Start()
     {
-        //playerController.
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _playerController = PlayerController.Instance;
+        _money = Money.Instance;
     }
 
     public void IncreaseDamge()
     {
+        if (_money.totalCoins < damageCost)
+        {
+            Debug.Log("Not enough money");
+            return;
+        }
+
+        _money.totalCoins -= damageCost;
         PlayerController.Instance.playerDamage++;
-        Debug.Log("Damge in");
-        
     }
 
     public void IncreaseFirerate()
     {
-        PlayerShot.Instance.delayShot *= 1.25f;
-    }
+        if (_money.totalCoins < firerateCost)
+        {
+            Debug.Log("Not enough money");
+            return;
+        }
 
-    public void UpdateDamage()
-    {
+        _money.totalCoins -= firerateCost;
         
+        PlayerShot.Instance.delayShot *= _firerateMultiplier;
     }
 }

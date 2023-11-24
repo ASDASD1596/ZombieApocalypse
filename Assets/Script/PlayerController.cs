@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -18,13 +15,12 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private Sprite fullHeart;
     [SerializeField] private Sprite damagedHeart;
     public int playerDamage = 1;
-   
-
-    private Vector2 movementNewInput;
-    private Vector2 movement;
-    private Vector2 mousePosition;
     
-
+    private Vector2 _movementNewInput;
+    private Vector2 _movement;
+    private Vector2 _mousePosition;
+    private float _angularOffset = 90f;
+    
     private void Start()
     {
         UpdateHealth();
@@ -32,24 +28,21 @@ public class PlayerController : Singleton<PlayerController>
 
     void Move()
     {
-        transform.position += (Vector3) movementNewInput * walkProfile._speed * Time.deltaTime;
+        transform.position += (Vector3) _movementNewInput * walkProfile._speed * Time.deltaTime;
     }
 
     void FixedUpdate()
     {
         Move();
 
-        //mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 lookDirection = mousePosition - rb.position;
-        float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 90f;
+        Vector2 lookDirection = _mousePosition - rb.position;
+        float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - _angularOffset;
         rb.rotation = angle;
-
-
     }
 
     void OnMove(InputValue moveValue)
     {
-        movementNewInput = moveValue.Get<Vector2>();
+        _movementNewInput = moveValue.Get<Vector2>();
     }
 
     public void UpdateHealth()
@@ -63,7 +56,7 @@ public class PlayerController : Singleton<PlayerController>
             else
             {
                 heart[i].sprite = damagedHeart;
-                if (health == 0)
+                if (health <= 0)
                 {
                     SceneManager.LoadScene("PlayerDead");
                 }
@@ -73,12 +66,13 @@ public class PlayerController : Singleton<PlayerController>
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.transform.tag == "Enemy")
+        if (col.CompareTag("Enemy"))
         {
-            //SoundManager.instance.Play(SoundManager.SoundName.);
-            if (health != 0)
+            col.TryGetComponent(out EnemyController enemy);
+            
+            if (health > 0)
             {
-                health -= 1;
+                health -= enemy._damage;
             }             
             //StartCoroutine(Invulnerability());
             UpdateHealth();
@@ -96,6 +90,6 @@ public class PlayerController : Singleton<PlayerController>
         color.a = 1f;
         rend.material.color = color;
     }*/
-
-
+    
+    //TODO: Add feature to increase max health
 }

@@ -173,9 +173,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c021e6a981bf6b4b99ac8c874b7d1ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WalkProfile: {fileID: 11400000, guid: fb79aaaf65a41f1469fa7f97b207aea7, type: 2}
-  animator: {fileID: -896597311531514844}
   coinDrop: {fileID: 3416942899725825212, guid: 2b5a81c8c8f1cb54fa06cdf1e6a81e06, type: 3}
+  walkProfile: {fileID: 11400000, guid: fb79aaaf65a41f1469fa7f97b207aea7, type: 2}
+  animator: {fileID: -896597311531514844}
+  _health: 10
+  _damage: 1
 --- !u!95 &-896597311531514844
 Animator:
   serializedVersion: 5

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerShot : Singleton<PlayerShot>
@@ -10,33 +7,26 @@ public class PlayerShot : Singleton<PlayerShot>
     [SerializeField] private GameObject playerShot;
     [SerializeField] private Animator animator;
     public float delayShot;
-    private float nextShot;
-
-    private void Start()
-    {
-        
-    }
+    private float _nextShot;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetMouseButtonDown(0))
         {
             Shoot();
-            
         }
     }
 
     void Shoot()
     {
-        if (Time.time > nextShot)
+        if (Time.time > _nextShot)
         {
-            nextShot = Time.time + delayShot;
+            _nextShot = Time.time + delayShot;
             GameObject bullet = Instantiate(playerShot, gun.position, gun.rotation);
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
             rb.AddForce(gun.up * shotSpeed,ForceMode2D.Impulse);
             SoundManager.Instance.Play(SoundManager.SoundName.Gunshot);
             animator.Play("PlayerShoot");
         }
-        
     }
 }
