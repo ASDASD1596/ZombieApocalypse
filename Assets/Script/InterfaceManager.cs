@@ -24,7 +24,7 @@ public class InterfaceManager : Singleton<InterfaceManager>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             ToggleShop();
         }
@@ -40,7 +40,7 @@ public class InterfaceManager : Singleton<InterfaceManager>
 
     private void ToggleShop()
     {
-        if (_isOnShop)
+        if (!_isOnShop)
         {
             Time.timeScale = 0f;
             
