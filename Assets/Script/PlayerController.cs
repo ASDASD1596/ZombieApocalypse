@@ -39,7 +39,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         Move();
 
-        mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+        //mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
         Vector2 lookDirection = mousePosition - rb.position;
         float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg - 90f;
         rb.rotation = angle;
