@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
 
     [SerializeField] private WalkProfile walkProfile;
@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image[] heart;
     [SerializeField] private Sprite fullHeart;
     [SerializeField] private Sprite damagedHeart;
+    public int playerDamage = 1;
+   
 
     private Vector2 movementNewInput;
     private Vector2 movement;

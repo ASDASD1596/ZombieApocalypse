@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ZombieController : MonoBehaviour
@@ -8,20 +10,28 @@ public class ZombieController : MonoBehaviour
     private Transform player;
     [SerializeField] private WalkProfile WalkProfile;
     [SerializeField] private Animator animator;
-  
+
+
 
     
-    private PlayerController ph;
     private Vector2 movement;
     private Rigidbody2D rb;
-    private int damage = 1;
-    private int health = 1;
-    
-    
-    void Start()
+    //private int damage = 1;
+    private int health = 10;
+    //public int damageAmount = 1;
+
+    public GameObject coinDrop;
+
+    private void Awake()
     {
+        
         rb = this.GetComponent<Rigidbody2D>();
         player = GameObject.FindWithTag("Player").transform;
+    }
+
+    void Start()
+    {
+        PlayerController playerController = GetComponent<PlayerController>();
         /*GameObject go = GameObject.FindGameObjectWithTag("Player");
         if (go != null)
         {
@@ -60,18 +70,22 @@ public class ZombieController : MonoBehaviour
         }*/
          if (col.CompareTag("Bullet"))         
         {
-            if (health != 0)
-            {
-                health -= 1;
-                
-            }             
-            else if (health == 0)
+                TakeDamage();
+                        
+            if(health <= 0)
             {
                 Destroy(gameObject);
+                Instantiate(coinDrop, transform.position,quaternion.identity);
                 SoundManager.instance.Play(SoundManager.SoundName.Zombie_Die);
             }
             
         }
     }
+
+    private void TakeDamage()
+    {
+        health -= PlayerController.Instance.playerDamage;
+    }
+    
     
 }
